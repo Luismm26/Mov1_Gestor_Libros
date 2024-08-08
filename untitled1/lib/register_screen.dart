@@ -37,100 +37,102 @@ class RegisterScreen extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: const EdgeInsets.all(24.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(24.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    'Registrarte',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF637077), // colorPrincipal2
-                    ),
-                  ),
-                  SizedBox(height: 50),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Usuario',
-                      labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'Registrarte',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF637077), // colorPrincipal2
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
-                          color: Color(0xFF637077), // colorPrincipal2
+                    ),
+                    SizedBox(height: 50),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Usuario',
+                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(
+                            color: Color(0xFF637077), // colorPrincipal2
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 25),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
-                          color: Color(0xFF637077), // colorPrincipal2
+                    SizedBox(height: 25),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(
+                            color: Color(0xFF637077), // colorPrincipal2
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 25),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
-                          color: Color(0xFF637077), // colorPrincipal2
+                    SizedBox(height: 25),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(
+                            color: Color(0xFF637077), // colorPrincipal2
+                          ),
                         ),
                       ),
+                      obscureText: true,
                     ),
-                    obscureText: true,
-                  ),
 
-                  SizedBox(height: 50),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Acción para el botón de iniciar sesión
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                    SizedBox(height: 50),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Acción para el botón de iniciar sesión
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
+                      child: Text('Iniciar Sesión'),
                     ),
-                    child: Text('Iniciar Sesión'),
-                  ),
-                  SizedBox(height: 70),
+                    SizedBox(height: 70),
 
-                ],
+                  ],
+                ),
               ),
             ),
           ),

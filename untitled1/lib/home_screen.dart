@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/welcome_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,24 +25,37 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('StorySphere'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.logout, color: Colors.black),
+          onPressed: () {
+            // Acción para cerrar sesión
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WelcomeScreen()),
+            );
+          },
+        ),
       ),
       body: _children[_currentIndex],
+      child: column(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            label: 'Home',
+            icon: new Icon(Icons.home ),
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.search),
-            label: 'Search',
+            icon: new Icon(Icons.add),
+            label: 'Publicar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Perfil',
           ),
         ],
       ),
