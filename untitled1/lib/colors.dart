@@ -1,7 +1,10 @@
+// colores.dart
 import 'package:flutter/material.dart';
 
-const Color colorClaro = Color(0xFFF4E0B7);
-const Color colorPrincipal1 = Color(0xFFE1D0D1);
-const Color colorPrincipal2 = Color(0xFF637077);
-const Color colorNeutro = Color(0xFF90A9B0);
-const Color colorCalido = Color(0xFFB87C4C);
+class AppColors {
+  static const Color color1 = Color(0xFF4DB799);
+  static const Color color2 = Color(0xFF235474);
+  static const Color color3 = Color(0xFFE8F4EB);
+  static const Color color4 = Color(0xFF7BE494);
+  static const Color color5 = Color(0xFF249898);
+}

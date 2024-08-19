@@ -31,6 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Paquete para abrir la cámara y seleccionar imágenes
+  image_picker: ^0.8.7+3
+
+  # Paquete para mostrar un sistema de calificación con estrellas
+  flutter_rating_bar: ^4.0.1
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

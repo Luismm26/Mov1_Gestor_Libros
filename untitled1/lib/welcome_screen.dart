@@ -7,7 +7,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorPrincipal1,
+      backgroundColor: AppColors.color1,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -17,6 +17,7 @@ class WelcomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
+                  color: AppColors.color2,  // Color del texto
                 ),
               ),
             ),
@@ -25,10 +26,8 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Material(
-
-                color: Colors.transparent, // Color del botón
+                color: Colors.transparent, // Color del fondo del botón
                 child: InkWell(
-
                   onTap: () {
                     // Acción para el botón de login
                     Navigator.push(
@@ -37,19 +36,20 @@ class WelcomeScreen extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 38, vertical: 25),
+                    padding: EdgeInsets.symmetric(horizontal: 36, vertical: 25),
                     child: Text(
                       'Iniciar Sesión',
-                      style: TextStyle(fontSize: 18, color: Colors.blue),
+                      style: TextStyle(fontSize: 18, color: AppColors.color5),
                     ),
                   ),
                 ),
               ),
+              SizedBox(width: 10),  // Espacio entre los botones
               Material(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30), // Redondea la esquina superior derecha
                 ),
-                color: Colors.blue, // Color del botón
+                color: AppColors.color4, // Color del botón
                 child: InkWell(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30), // Redondea la esquina superior izquierda
@@ -62,10 +62,10 @@ class WelcomeScreen extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 38, vertical: 25),
+                    padding: EdgeInsets.symmetric(horizontal: 36, vertical: 25),
                     child: Text(
                       'Registrarse',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(fontSize: 18, color: AppColors.color5),
                     ),
                   ),
                 ),

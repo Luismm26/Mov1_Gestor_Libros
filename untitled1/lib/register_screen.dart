@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/welcome_screen.dart';
+import 'colors.dart';  // Importa el archivo donde definiste los colores
 
 class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.color1,
       appBar: AppBar(
-        title: Text('Regresar'),
+        title: Text('Regresar',
+            style: TextStyle(
+              color: AppColors.color2, // Color del texto del título
+            )),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: AppColors.color2),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  WelcomeScreen()),
+              MaterialPageRoute(builder: (context) => WelcomeScreen()),
             );
           },
         ),
@@ -28,8 +33,8 @@ class RegisterScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFF90A9B0), // colorNeutro
-                    Color(0xFFE1D0D1), // colorPrincipal1
+                    AppColors.color5, // Color inicial del gradiente
+
                   ],
                 ),
               ),
@@ -41,7 +46,7 @@ class RegisterScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(24.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.color3,  // Color de fondo del formulario
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -62,21 +67,21 @@ class RegisterScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF637077), // colorPrincipal2
+                        color: AppColors.color5, // Color del texto del título
                       ),
                     ),
                     SizedBox(height: 50),
                     TextField(
                       decoration: InputDecoration(
                         labelText: 'Usuario',
-                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        labelStyle: TextStyle(color: AppColors.color5), // Color del texto del label
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Color(0xFF637077), // colorPrincipal2
+                            color: AppColors.color5, // Color del borde al enfocar
                           ),
                         ),
                       ),
@@ -85,14 +90,14 @@ class RegisterScreen extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        labelStyle: TextStyle(color: AppColors.color5), // Color del texto del label
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Color(0xFF637077), // colorPrincipal2
+                            color: AppColors.color5, // Color del borde al enfocar
                           ),
                         ),
                       ),
@@ -101,36 +106,37 @@ class RegisterScreen extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        labelStyle: TextStyle(color: AppColors.color5), // Color del texto del label
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Color(0xFF637077), // colorPrincipal2
+                            color: AppColors.color5, // Color del borde al enfocar
                           ),
                         ),
                       ),
                       obscureText: true,
                     ),
-
                     SizedBox(height: 50),
                     ElevatedButton(
                       onPressed: () {
-                        // Acción para el botón de iniciar sesión
+                        // Acción para el botón de registro
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: AppColors.color4, // Color del botón
                         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text('Iniciar Sesión'),
+                      child: Text(
+                        'Registrarse',
+                        style: TextStyle(color: AppColors.color5), // Color del texto del botón
+                      ),
                     ),
                     SizedBox(height: 70),
-
                   ],
                 ),
               ),

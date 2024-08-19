@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/home_screen.dart';
 import 'package:untitled1/welcome_screen.dart';
+import 'colors.dart';  // Importa el archivo donde definiste los colores
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.color1,
       appBar: AppBar(
-        title: Text('Regresar'),
+        title: Text('Regresar',
+            style: TextStyle(
+          color: AppColors.color2, // Color del texto del título
+        )),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: AppColors.color2),
           onPressed: () {
             // Acción para regresar
             Navigator.push(
@@ -32,8 +38,8 @@ class LoginScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFF90A9B0), // colorNeutro
-                    Color(0xFFE1D0D1), // colorPrincipal1
+
+                    AppColors.color5, // Color final del gradiente
                   ],
                 ),
               ),
@@ -45,7 +51,7 @@ class LoginScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(24.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.color3,  // Color de fondo del formulario
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -66,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF637077), // colorPrincipal2
+                        color: AppColors.color5, // Color del texto del título
                       ),
                     ),
                     SizedBox(height: 50),
@@ -74,14 +80,14 @@ class LoginScreen extends StatelessWidget {
                       controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        labelStyle: TextStyle(color: AppColors.color5), // Color del texto del label
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Color(0xFF637077), // colorPrincipal2
+                            color: AppColors.color5, // Color del borde al enfocar
                           ),
                         ),
                       ),
@@ -91,14 +97,14 @@ class LoginScreen extends StatelessWidget {
                       controller: passwordController,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: TextStyle(color: Color(0xFF637077)), // colorPrincipal2
+                        labelStyle: TextStyle(color: AppColors.color5), // Color del texto del label
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide(
-                            color: Color(0xFF637077), // colorPrincipal2
+                            color: AppColors.color5, // Color del borde al enfocar
                           ),
                         ),
                       ),
@@ -108,13 +114,12 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-
                         Text(
                           'Olvide mi contraseña',
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: AppColors.color5,
                           ),
                         ),
                       ],
@@ -123,41 +128,44 @@ class LoginScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Acción para el botón de iniciar sesión
-                        if(emailController.text == 'ejem@gmail.com' && passwordController.text == '1230'){
+                        if (emailController.text == 'ejem@gmail.com' && passwordController.text == '1230') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => HomePage()),
                           );
-                        }else{
-                          showDialog(context: context, builder: (context) => AlertDialog(
-                            title: Text('Error'),
-                            content: Text('Correo o Contraseña incorrectos.'),
-                            actions: [
-                              TextButton(onPressed: (){
-                                Navigator.of(context).pop();
-                              },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          ),);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Error'),
+                              content: Text('Correo o Contraseña incorrectos.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK',style: TextStyle(color: AppColors.color5),),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: AppColors.color4, // Color del botón
                         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text('Iniciar Sesión'),
+                      child: Text('Iniciar Sesión',
+                      style: TextStyle(color: AppColors.color5),),
                     ),
                     SizedBox(height: 70),
-
                   ],
                 ),
               ),
             ),
-
           ),
         ],
       ),
