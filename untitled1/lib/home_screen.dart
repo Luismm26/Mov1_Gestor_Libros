@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/welcome_screen.dart';
 import 'colors.dart';
 
@@ -269,23 +272,45 @@ class InicioPage extends StatelessWidget {
     );
   }
 }
-
-
+//-------------------------------P  E  R  F  I  L     P  E  R  F  I  L     P  E  R  F  I  L     P  E  R  F  I  L     P  E  R  F  I  L     P  E  R  F  I  L     P  E  R  F  I  L
 class PerfilPage extends StatefulWidget {
   @override
   _PerfilPageState createState() => _PerfilPageState();
 }
 
 class _PerfilPageState extends State<PerfilPage> {
-  File? _profileImage;
+  String? _profileImage; //
   String _nombreUsuario = 'Nombre de Usuario';
 
-  Future<void> _pickProfileImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _profileImage = File(image.path);
-      });
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username') ?? 'Nombre de Usuario';
+
+    if (username != null) {
+      // Hacer la solicitud al servidor para obtener la información del usuario
+      final response = await http.get(Uri.parse('http://192.168.0.104:3000/user/$username'));
+
+      if (response.statusCode == 200) {
+        final userData = jsonDecode(response.body);
+
+        setState(() {
+          _nombreUsuario = userData['username'];
+
+          // La imagen se obtiene desde el servidor y se almacena en _profileImage como una URL
+          String? imagePath = userData['profilePicture'];
+          if (imagePath != null && imagePath.isNotEmpty) {
+            _profileImage = 'http://192.168.0.104:3000/$imagePath';
+          }
+        });
+      } else {
+        print('Error al obtener datos del usuario: ${response.statusCode}');
+      }
     }
   }
 
@@ -296,16 +321,14 @@ class _PerfilPageState extends State<PerfilPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: _pickProfileImage,
-            child: CircleAvatar(
-              radius: 60,
-              backgroundImage:
-              _profileImage != null ? FileImage(_profileImage!) : null,
-              child: _profileImage == null
-                  ? Icon(Icons.person, size: 60, color: AppColors.color5)
-                  : null,
-            ),
+          CircleAvatar(
+            radius: 60,
+            backgroundImage: _profileImage != null
+                ? NetworkImage(_profileImage!) // Usa NetworkImage con la URL completa
+                : null,
+            child: _profileImage == null
+                ? Icon(Icons.person, size: 60, color: Colors.grey)
+                : null,
           ),
           SizedBox(height: 16),
           Text(
@@ -313,7 +336,7 @@ class _PerfilPageState extends State<PerfilPage> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: AppColors.color2, // Color del nombre de usuario
+              color: Colors.black,
             ),
           ),
           SizedBox(height: 16),
@@ -326,7 +349,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   'Reseña del libro 1',
                   4.5,
                   'Ficción, Aventura',
-                  null, // Imagen opcional
+                  null,
                   context,
                 ),
                 _buildPublicacionCard(
@@ -335,10 +358,10 @@ class _PerfilPageState extends State<PerfilPage> {
                   'Reseña del libro 2',
                   3.0,
                   'Misterio, Suspense',
-                  null, // Imagen opcional
+                  null,
                   context,
                 ),
-                // Puedes añadir más tarjetas de publicaciones aquí
+                // Más tarjetas de publicaciones aquí
               ],
             ),
           ),
@@ -358,7 +381,7 @@ class _PerfilPageState extends State<PerfilPage> {
       ) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
-      color: AppColors.color3, // Color de fondo de la tarjeta
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -376,7 +399,6 @@ class _PerfilPageState extends State<PerfilPage> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.color2, // Color del título
                         ),
                       ),
                       SizedBox(height: 4),
@@ -384,7 +406,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         autor,
                         style: TextStyle(
                           fontSize: 16,
-                          color: AppColors.color5, // Color del autor
+                          color: Colors.grey,
                         ),
                       ),
                       SizedBox(height: 8),
@@ -392,7 +414,6 @@ class _PerfilPageState extends State<PerfilPage> {
                         resena,
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.color2, // Color de la reseña
                         ),
                       ),
                     ],
@@ -415,13 +436,13 @@ class _PerfilPageState extends State<PerfilPage> {
                   Container(
                     width: 100,
                     height: 150,
-                    color: AppColors.color4, // Color de fondo si no hay imagen
+                    color: Colors.grey[200],
                     margin: EdgeInsets.only(left: 16.0),
                     child: Center(
                       child: Text(
                         'Sin imagen',
                         style: TextStyle(
-                          color: AppColors.color5, // Color del texto si no hay imagen
+                          color: Colors.grey,
                         ),
                       ),
                     ),
@@ -433,7 +454,7 @@ class _PerfilPageState extends State<PerfilPage> {
               'Categorías: $categorias',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.color5, // Color de las categorías
+                color: Colors.grey,
               ),
             ),
             SizedBox(height: 8),
@@ -441,7 +462,7 @@ class _PerfilPageState extends State<PerfilPage> {
               rating: calificacion,
               itemBuilder: (context, index) => Icon(
                 Icons.star,
-                color: AppColors.color4, // Color de las estrellas
+                color: Colors.orange,
               ),
               itemCount: 5,
               itemSize: 24.0,
@@ -452,7 +473,7 @@ class _PerfilPageState extends State<PerfilPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit, color: AppColors.color2),
+                  icon: Icon(Icons.edit),
                   onPressed: () {
                     _editPublicacion(
                       titulo,
@@ -466,7 +487,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete, color: AppColors.color5),
+                  icon: Icon(Icons.delete),
                   onPressed: () {
                     _deletePublicacion(titulo, context);
                   },
@@ -511,7 +532,7 @@ class _PerfilPageState extends State<PerfilPage> {
                       labelText: 'Título del libro',
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.color2),
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                   ),
@@ -522,7 +543,7 @@ class _PerfilPageState extends State<PerfilPage> {
                       labelText: 'Autor',
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.color2),
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                   ),
@@ -533,7 +554,7 @@ class _PerfilPageState extends State<PerfilPage> {
                       labelText: 'Reseña',
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.color2),
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                     maxLines: 3,
@@ -545,58 +566,89 @@ class _PerfilPageState extends State<PerfilPage> {
                       labelText: 'Categorías',
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.color2),
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                   ),
                   SizedBox(height: 16),
-                  Text('Calificación'),
-                  RatingBar.builder(
+                  Text('Calificación:'),
+                  SizedBox(height: 8),
+                  RatingBar(
                     initialRating: _calificacion,
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: AppColors.color4, // Color de las estrellas
+                    itemSize: 24.0,
+                    ratingWidget: RatingWidget(
+                      full: Icon(Icons.star, color: Colors.orange),
+                      half: Icon(Icons.star_half, color: Colors.orange),
+                      empty: Icon(Icons.star_border, color: Colors.orange),
                     ),
                     onRatingUpdate: (rating) {
                       _calificacion = rating;
                     },
                   ),
                   SizedBox(height: 16),
-                  if (_imagen != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Image.file(
-                        _imagen!,
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  _buildImageSelector(context, _imagen),
                 ],
               ),
             ),
           ),
           actions: [
             TextButton(
+              child: Text('Cancelar'),
               onPressed: () {
-                // Actualiza la publicación con los nuevos datos
                 Navigator.of(context).pop();
               },
-              child: Text('Guardar', style: TextStyle(color: AppColors.color2)),
             ),
             TextButton(
+              child: Text('Guardar'),
               onPressed: () {
+                setState(() {
+                  // Actualizar la publicación con los nuevos datos
+                });
                 Navigator.of(context).pop();
               },
-              child: Text('Cerrar', style: TextStyle(color: AppColors.color5)),
             ),
           ],
         );
       },
+    );
+  }
+
+  Widget _buildImageSelector(BuildContext context, File? imagen) {
+    return Row(
+      children: [
+        Text('Imagen:'),
+        SizedBox(width: 8),
+        if (imagen != null)
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                image: FileImage(imagen),
+                fit: BoxFit.cover,
+              ),
+            ),
+          )
+        else
+          Text('No seleccionada'),
+        IconButton(
+          icon: Icon(Icons.add_a_photo),
+          onPressed: () async {
+            final ImagePicker _picker = ImagePicker();
+            final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+            if (pickedFile != null) {
+              setState(() {
+                imagen = File(pickedFile.path);
+              });
+            }
+          },
+        ),
+      ],
     );
   }
 
@@ -606,20 +658,20 @@ class _PerfilPageState extends State<PerfilPage> {
       builder: (context) {
         return AlertDialog(
           title: Text('Eliminar publicación'),
-          content: Text('¿Estás seguro de que deseas eliminar $titulo?'),
+          content: Text('¿Estás seguro de que deseas eliminar esta publicación?'),
           actions: [
             TextButton(
+              child: Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar', style: TextStyle(color: AppColors.color5)),
             ),
             TextButton(
+              child: Text('Eliminar'),
               onPressed: () {
-                // Lógica para eliminar la publicación
+                // Eliminar la publicación de la base de datos o de la lista
                 Navigator.of(context).pop();
               },
-              child: Text('Eliminar', style: TextStyle(color: AppColors.color5)),
             ),
           ],
         );
@@ -627,6 +679,7 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 }
+//-------------------------------P  U  B  L  I  C  A  R     P  U  B  L  I  C  A  R     P  U  B  L  I  C  A  R     P  U  B  L  I  C  A  R     P  U  B  L  I  C  A  R     P  U  B  L  I  C  A  R
 
 class PublicarForm extends StatefulWidget {
   @override

@@ -1,5 +1,5 @@
-// colores.dart
-import 'package:flutter/material.dart';
+//colores.dart
+import "package:flutter/material.dart";
 
 class AppColors {
   static const Color color1 = Color(0xFF4DB799);

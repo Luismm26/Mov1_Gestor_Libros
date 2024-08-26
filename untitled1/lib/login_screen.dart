@@ -1,11 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/home_screen.dart';
-import 'package:untitled1/welcome_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'home_screen.dart';
+import 'welcome_screen.dart';
+import 'package:local_auth/local_auth.dart';
 import 'colors.dart';  // Importa el archivo donde definiste los colores
+
+
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  Future<void> _login(BuildContext context) async {
+    final String email = emailController.text;
+    final String password = passwordController.text;
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.0.104:3000/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      final responseBody = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', responseBody['username']);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        final errorMessage = responseBody['error'] ?? 'Correo o Contraseña incorrectos.';
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Error'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK', style: TextStyle(color: AppColors.color5)),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('No se pudo conectar con el servidor.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK', style: TextStyle(color: AppColors.color5)),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +84,8 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Regresar',
             style: TextStyle(
-          color: AppColors.color2, // Color del texto del título
-        )),
+              color: AppColors.color2, // Color del texto del título
+            )),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -38,7 +108,6 @@ class LoginScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-
                     AppColors.color5, // Color final del gradiente
                   ],
                 ),
@@ -115,7 +184,7 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'Olvide mi contraseña',
+                          'Olvidé mi contraseña',
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -127,29 +196,7 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 60),
                     ElevatedButton(
                       onPressed: () {
-                        // Acción para el botón de iniciar sesión
-                        if (emailController.text == 'ejem@gmail.com' && passwordController.text == '1230') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Error'),
-                              content: Text('Correo o Contraseña incorrectos.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('OK',style: TextStyle(color: AppColors.color5),),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                        _login(context); // Llama a la función _login
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.color4, // Color del botón
@@ -158,8 +205,10 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text('Iniciar Sesión',
-                      style: TextStyle(color: AppColors.color5),),
+                      child: Text(
+                        'Iniciar Sesión',
+                        style: TextStyle(color: AppColors.color5), // Color del texto del botón
+                      ),
                     ),
                     SizedBox(height: 70),
                   ],
