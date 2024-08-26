@@ -21,9 +21,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-mongoose.connect('mongodb+srv://xadannyperez:LxC55jB9fOanCGbd@cluster0.uydub.mongodb.net/mydatabase?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+mongoose.connect('mongodb+srv://xadannyperez:LxC55jB9fOanCGbd@cluster0.uydub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+    
   }).then(() => {
     console.log('Connected to MongoDB Atlas');
   }).catch((error) => {
@@ -107,6 +106,6 @@ app.get('/', (req, res) => {
 
 const port = 3000;
 
-app.listen(port, '192.168.0.104', () => {
-  console.log(`Server running on http://192.168.0.104:${port}`);
+app.listen(port, '192.168.1.131', () => {
+  console.log(`Server running on http://192.168.1.131:${port}`);
 });

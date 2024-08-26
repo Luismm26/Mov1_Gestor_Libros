@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String email = _emailController.text;
     final String password = _passwordController.text;
 
-    final uri = Uri.parse('http://192.168.0.104:3000/register');
+    final uri = Uri.parse('http://192.168.1.131:3000/register');
     final request = http.MultipartRequest('POST', uri);
 
     request.fields['username'] = username;

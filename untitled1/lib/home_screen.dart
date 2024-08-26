@@ -294,7 +294,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
     if (username != null) {
       // Hacer la solicitud al servidor para obtener la información del usuario
-      final response = await http.get(Uri.parse('http://192.168.0.104:3000/user/$username'));
+      final response = await http.get(Uri.parse('http://192.168.1.131:3000/user/$username'));
 
       if (response.statusCode == 200) {
         final userData = jsonDecode(response.body);
@@ -305,7 +305,7 @@ class _PerfilPageState extends State<PerfilPage> {
           // La imagen se obtiene desde el servidor y se almacena en _profileImage como una URL
           String? imagePath = userData['profilePicture'];
           if (imagePath != null && imagePath.isNotEmpty) {
-            _profileImage = 'http://192.168.0.104:3000/$imagePath';
+            _profileImage = 'http://192.168.1.131:3000/$imagePath';
           }
         });
       } else {
